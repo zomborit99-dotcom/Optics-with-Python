@@ -161,7 +161,7 @@ print('Phase (rad): \n', phi)
 #Contains multiple submodules. The submodule needed for the 2D visualization
 #is called Pyplot:
 import matplotlib.pyplot as plt
-#This submodule requires numpy arrays, so that module must be imported, too.nj
+#This submodule requires numpy arrays, so that module must be imported, too.
     
 
 
