@@ -161,17 +161,20 @@ print('Phase (rad): \n', phi)
 #Contains multiple submodules. The submodule needed for the 2D visualization
 #is called Pyplot:
 import matplotlib.pyplot as plt
-plt.close('all')
+plt.close('all')    #Closes all previously opened plots (for clarity).
 #This submodule requires numpy arrays, so that module must be imported, too.
+
 
 
 #Let's have a look at some simple plots:
 plt.plot([1,2,3,3,2,5,6,5,6,7])   #The 'x' axis starts with 0 and step = 1.      
 
 
+
 #New datasets below. Important: len(x) = len(y)!
 x = np.linspace(-2*np.pi, 2*np.pi, 200)
 y = np.sin(x)
+
 
 
 plt.figure()    #without plt.figure(), the 2 plots appear on the same 
@@ -180,11 +183,13 @@ plt.plot(x,y)
 plt.show()
 
 
+
 #Let's apply "decorations"!
 x1 = np.linspace(-2*np.pi, 2*np.pi, 200)
 y1 = np.sin(x1)
 x2 = np.linspace(-2*np.pi, 2*np.pi, 20)
 y2 = np.sin(x2)
+
 
 
 plt.figure(3, figsize = (7,5))
@@ -196,6 +201,7 @@ plt.legend(loc='upper right')                       #location of plot labels
 plt.show()
 
 
+
 #Applying a grid:
 #matplotlib.pyplot.grid(b=None, which='major', axis='both', **kwargs)
 #which: grid line type ('major, 'minor', 'both')
@@ -203,10 +209,47 @@ plt.show()
 
 
 
+"""Here is an explanation of **kwargs using an example:"""
+#Code:
+def human(**kwargs):
+    print(kwargs)
+human(name="Tomi", age=9001)       
+#Result:
+"""{'name': 'Tomi', 'age': 9001}
+Basically, **kwargs takes a custom amount of key-value pairs. In the above 
+example, we created a dictionary!"""
+    
+
+
+"""Here is an explanation of **kwargs using examples:"""    
+def listing(*args):
+    print(args)
+listing(1, 2, 3, 4)
+#Result:
+"""(1, 2, 3, 4)
+This is actually a tuple (not a list). *args takes a custom amount of
+positional arguments and works with them."""
 
 
 
+def summation(*args):
+    return np.sum(args)
 
+print(summation(1,2,3))
+#Result: 6
+    
+    
+    
+#matlotlib.pyplot.subplot(*args,**kwargs)
+#Adds a new graph to a figure. Creates an object from class 'axes'. Example:
+fig, ax1 = plt.subplots()   #Similar to 'a, b = 2, 1'. 'fig' will be the figure
+#(go figure...), and ax1 will be the plot. 'fig' is like a piece of paper onto
+#which we can draw the ax1 plot!
+
+#Here are a few methods for the 'axes' class:
+#axes.plot([x], y, [fmt], data=None, **kwargs) 
+#axes.set_xlabel(xlabel, fontdict=None, labelpad=None, **kwargs)
+#Axes.set_ylabel(ylabel, fontdict=None, labelpad=None, **kwargs)
 
 
 
