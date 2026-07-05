@@ -58,9 +58,9 @@ def plot_n(lamdaStart, lamdaEnd, lamdaStep, n_type, xlabel='Wavelength [nm]',
     ax.set_title(title)
     return ax
     
-ax1=plot_n(400, 1000, 1, 'n_BK7') #Typing plot(...) is enough in itself for the
-                                #plot to show! The ax1=plot(...) formalism will
-                                #be made use of later in the program.
+ax1=plot_n(400, 1000, 1, 'n_BK7')   #Typing plot(...) is enough in itself for the
+                                    #plot to show! The ax1=plot(...) formalism will
+                                    #be made use of later in the program.
 
 
 
