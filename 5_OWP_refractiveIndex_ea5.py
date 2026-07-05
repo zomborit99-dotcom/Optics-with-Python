@@ -95,7 +95,9 @@ ax3.set_title('Comparison of refractive indices')
 
 """(12)_<<<<<<<<<<<<<<<_REFRACTIVE INDEX + SNELL'S LAW>>>>>>>>>>>>>>>>>_(12)"""
 #Let's demonstrate Snell's law of refraction on the medium border of air and
-#a BK7 glass using the previously defined refraction function 'n'. 
+#a BK7 glass using the previously defined refraction function 'n'. See the
+#corresponding picture called 5_OWP_refractiveIndex_ea5_PICTURE_1 for a 
+#visual representation!
 #There is also a plot of the simpler small angle approximation to showcase how 
 #little the difference is in the case of small angles.
 n_air = 1
