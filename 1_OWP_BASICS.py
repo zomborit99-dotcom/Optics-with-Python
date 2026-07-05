@@ -3,7 +3,7 @@
         *** f = 5 cm, t = -6 cm
             
         ==>   1/im - 1/ob = 1/f   ==>   1/im = 1/f + 1/ob   ==>
-        im = (f*ob) / (ob+f)
+        im = (f*ob) / (ob+f)    #Mind the sign convention!
 """
 f, ob = 5, -6
 im = (f*ob) / (ob+f)
