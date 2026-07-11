@@ -139,7 +139,7 @@ plot(      (y0, LSA_PC, 'r-', 'LSA'), (y0, TSA_PC, 'b-', 'TSA'),
 
 
 #Now let's do the same, but this time let the incident rays meet with convex 
-#part of the lense first! Visual demo: 7_OWP_CPSetup_PICTURE_2.
+#part of the lense first! Visual demo: 7_OWP_CPSetup_PICTURE_3.
 R1_CP = R1
 
 
