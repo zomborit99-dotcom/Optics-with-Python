@@ -74,7 +74,8 @@ disp_c = np.zeros(len(om))
 
 
 
-for i in range(len(om)-1):
+for i in range(len(om)-1):      #This is straigthforward with regards to the 
+                                #indexing and the number of indices.
     disp_f[i] = (   alpha2[i+1] - alpha2[i]   ) / dom
 
 
@@ -86,17 +87,45 @@ for i in range(1, len(om)):
     
    
     
-for i in range(len(om)-1):    
+for i in range(len(om)-1):      #The -1 is the negative of the highest offset 
+                                #to the indexing of alpha2! alpha2 doesn't have
+                                #a value with a higher index than i_max+1.
     disp_b[i+1] = (   alpha2[i+1] - alpha2[i]   ) / dom
-disp_b = np.delete(disp_b, 0)
+                                #Here the difference uses an 'i+1' style of 
+                                #indexing, which demands a reindexing for
+                                #for alpha2! We could also start from the last
+                                #indices, so not from i=0, but from i =-1.
+disp_b = np.delete(disp_b, 0)   #The disadvantage is that we have to delete the
+                                #the 1st value (index 0), as it is a meaning-
+                                #lessly given 0 value.
+                                
+                                
+                                
+#Here is another method, albeit with inferior readability:
+disp_b = np.zeros(len(om)-1)
+for i in range(len(om)-1):
+    disp_b[i] = (   alpha2[i+1] - alpha2[i]   ) / dom
+#This creates less indices, does not require a delete operation, and as such, 
+#it is faster to compute. However, we sacrifice readability for speed that is
+#not necessary for such a short program code.
 
 
-
-
-for i in range(len(om)-2):
+for i in range(len(om)-2):      
     disp_c[i+1] = (   alpha2[i+2] - alpha2[i]   ) / 2 / dom
-disp_c = np.delete(disp_c, 0)
-disp_c = np.delete(disp_c, len(disp_c)-1)
+disp_c = np.delete(disp_c, 0)   
+disp_c = np.delete(disp_c, len(disp_c)-1)   #No value given (other than the
+                                            #original 0) to the first and last
+                                            #indices in the ndarray!
+#The excess of values exist for readability, but must be deleted once the for
+#cycle is finished.
+
+
+
+#Here is the faster version:
+disp_c = np.zeros(len(om)-2)
+for i in range(len(om)-2):      
+    disp_c[i] = (   alpha2[i+2] - alpha2[i]   ) / 2 / dom
+
 
 
 
@@ -184,15 +213,77 @@ disp_plot.lines[1].set_markersize(15)
 
 
 
+"""(19)_<<<<<<<<<<<<<<<<<_DISPERSING PRISMS_>>>>>>>>>>>>>>>>>_(19)"""
+#Have a look at the following prism, which is used in lasers designed to
+#produce ultrashort laser impulses: 
+#https://www.edmundoptics.com/f/ultrafast-dispersion-compensating-prisms/14942/
+
+#Let's check the Brewster angle with minimal deviation for the given reference
+#wavelength! Calculate what the prism angle should be!
+
+#Visual demo of the Brewster angle on slab: 9_OWP_INKSCAPE_Brewster.pdf. Notice
+#that for alpha_Brewster: alpha + 90 + beta = 180, therefore beta = 90 - alpha.
+#Furthermore: sin(alpha) = n * sin(90 - alpha) -> alpha = atg(n).
+wl_r = 800#nm
+alpha_Br = np.atan(   n(800, 'n_FS')   )
+print(np.rad2deg(alpha_Br))
+#For minimal deviation beta = gamma / 2, beta = asin(sin(alpha)/n):
+gamma = 2 * np.arcsin(   np.sin(alpha_Br) / n(800, 'n_FS')   )
+print(np.rad2deg(gamma))
 
 
 
+#Using the previously defined prism, calculate the deviation and the dispersion
+#of the prism for the angular frequency values ranging from 1.8-3.2 PHz, with a
+#step value of 0.01 PHz! Let alpha1 = alpha_Br!
+om = np.arange(1.8, 3.21, 0.01)
+wl = 2*np.pi*c/om
+beta1 = np.arcsin(   np.sin(alpha_Br) / n(wl, 'n_FS')   )
+beta2 = gamma - beta1
+alpha2 = np.arcsin(   n(wl, 'n_FS') * np.sin(beta2)   )
+delta = alpha_Br + alpha2 - gamma
+disp = np.gradient(delta, om)
 
 
 
+plot(   (om, delta*1000, 'r-', ''), 
+     xlabel='Angular Frequency [PHz]', ylabel='Deviation [mrad]',
+     title='Deviation as a function of angular frequency')
 
 
 
+plot(   (om, disp*1000, 'r-', ''), 
+     xlabel='Angular Frequency [PHz]', ylabel='Dispersion [mrad/PHz]',
+     title='Dispersion as a function of angular frequency')
+
+
+
+#Now let's do the same, but with wavelength, and let the wavelengths be:
+wl = np.arange(600, 1000, 0.1)
+beta1 = np.arcsin(   np.sin(alpha_Br) / n(wl, 'n_FS')   )
+beta2 = gamma - beta1
+alpha2 = np.arcsin(   n(wl, 'n_FS') * np.sin(beta2)   )
+delta = alpha_Br + alpha2 - gamma
+disp = np.gradient(delta, wl)
+
+
+
+plot(   (wl, delta*1000, 'r-', ''), 
+     xlabel='Wavelength [nm]', ylabel='Deviation [mrad]',
+     title='Deviation as a function of wavelength')
+
+
+
+plot(   (wl, disp*1000, 'r-', ''), 
+     xlabel='Wavelength [nm]', ylabel='Dispersion [mrad/nm]',
+     title='Dispersion as a function of wavelength')
+
+
+
+#The value of angular dispersion at wl = 800nm is:
+i_800 = np.argmin(   np.abs(wl-800)   )
+print(i_800)
+print(disp[i_800])
 
 
 
